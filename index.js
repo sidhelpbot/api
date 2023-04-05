@@ -5,7 +5,7 @@ const { enter, leave } = Scenes.Stage;
 let requestTgCodeGetRandomHash = require('./steps/step1')
 let loginStepGetStelCookie = require('./steps/step2')
 let scarp_tg_existing_app = require('./steps/step3')
-let create_new_tg_app = require('./steps/stem44')
+let create_new_tg_app = require('./steps/step4')
 let accesshash;
 let loginhash;
 let mobile;
@@ -44,9 +44,12 @@ ApiSend.on("message", async ctx => {
   
  let cookieString = tok[1][0];
 
+    let e = await scarp_tg_existing_app(cookieString)
+  
   let sendlogin = {
     cookieString,
     accesshash,
+    e,
   }
   ctx.reply(JSON.stringify(sendlogin))
   console.log(cookieString)
@@ -58,19 +61,20 @@ api.enter((ctx) => {ctx.reply("Enter String which you found by /start method")})
   
 api.on("message", async (ctx) => {
   let cred = JSON.parse(ctx.message.text)
-  let e = await scarp_tg_existing_app(cred.cookieString)
+let e = cred.e;
+    // console.log(e, cred.cookieString)
   if(e[0]){
-    // console.log(e[0])
     ctx.reply("" + JSON.stringify(e[1]))
   } else {
+    console.log("yes")
   let tg_app_hash = e[1].tg_app_hash
     console.log(tg_app_hash)
 
    async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-await sleep(60000)
-let app = await create_new_tg_app(cred.cookieString, tg_app_hash, "kuchohnhi", "kuchhnhiii", 'my.telegram.org', app_platform[0], "created")
+
+let app = await create_new_tg_app(cred.cookieString, tg_app_hash, "kucrehnhi", "yrwosssor", 'my.telegram.org', app_platform[0], "createdhehe")
     console.log(app)
   }
 
@@ -91,17 +95,6 @@ bot.command('api', ctx => ctx.scene.enter('api'));
 bot.on('message', ctx => ctx.reply('Try /start or /api'));
 
 bot.launch();
-
-
-
-
-
-
-
-
-
- 
-
 
   let tok = [
   true,
